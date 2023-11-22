@@ -1,0 +1,17 @@
+# Below is a code used to find the average amount paid by Rockbusters Top 5 Customers using JOINS
+
+WITH average_amount_paid_cte (customer_id, first_name, last_name, city, country, total_paid_amount)AS
+(SELECT A.customer_id, B.first_name, E.country, D.city, sum(amount)AS total_paid_amount
+FROM payment A
+INNER JOIN customer B ON A.customer_id = B.customer_id
+INNER JOIN address C ON B.address_id = C.address_id
+INNER JOIN city D ON C.city_id = D.city_ID
+INNER JOIN country E ON D.country_ID = E.country_ID
+WHERE city = 'Aurora' or city = 'Acua' or city = 'Citrus Heights' or city = 'Iwaki' or city = 'Ambattur' or
+city = 'Shanwei' or city = 'So Leopoldo' or city = 'Teboksary'
+or city = 'Tianjin' or city = 'Cianjur'
+GROUP BY A.customer_id,first_name, last_name, country, city
+ORDER BY sum (amount) DESC
+LIMIT 5) 
+SELECT AVG (total_paid_amount) AS average
+FROM average_amount_paid_cte
